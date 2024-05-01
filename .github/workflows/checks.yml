@@ -1,0 +1,19 @@
+--- #this signifies that is a yml file
+name: Checks
+
+on: [push] #this is a trigger (any time we push the project to github, it will work)
+
+jobs:
+  test-lint: #idea of the job
+    name: Test and Lint
+    runs-on: ubuntu-20.04 #it is a runner, runner is basically operating system that we are going to run our project on
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with: 
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrest.DOCKERHUB_TOKEN }}
+      - name: Checkout 
+        uses: actions/checkout@v2
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
